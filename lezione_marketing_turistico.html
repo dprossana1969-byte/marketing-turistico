@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Linguaggio del Marketing — Turismo.com</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF7F2;
+    --ink: #1A1714;
+    --ink-mid: #4A443E;
+    --ink-light: #8C857D;
+    --gold: #C4923A;
+    --gold-light: #F0D9B0;
+    --gold-pale: #FBF3E4;
+    --teal: #2D7D6F;
+    --teal-light: #D4EDE9;
+    --teal-pale: #EEF7F5;
+    --coral: #C45040;
+    --coral-light: #F5D5D0;
+    --coral-pale: #FDF1EF;
+    --blue: #2B5FA0;
+    --blue-light: #D2E3F5;
+    --blue-pale: #EDF4FC;
+    --border: #E8E2DA;
+    --shadow: 0 2px 12px rgba(26,23,20,0.08);
+    --shadow-lg: 0 8px 32px rgba(26,23,20,0.12);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 2rem 2.5rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 300px; height: 100%;
+    background: linear-gradient(135deg, transparent 40%, rgba(196,146,58,0.15));
+    pointer-events: none;
+  }
+  .header-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: .5rem;
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700; line-height: 1.2; margin-bottom: .5rem;
+  }
+  .header-sub { font-size: 14px; color: rgba(250,247,242,.6); font-weight: 300; }
+  .header-meta { display: flex; gap: 16px; margin-top: 1.2rem; flex-wrap: wrap; }
+  .meta-chip {
+    font-size: 11px; font-weight: 500; padding: 4px 12px;
+    border-radius: 20px; border: 1px solid rgba(196,146,58,.4);
+    color: var(--gold-light); letter-spacing: .04em;
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: white; border-bottom: 1px solid var(--border);
+    padding: .75rem 2rem; display: flex; align-items: center; gap: 16px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(26,23,20,.06);
+  }
+  .progress-label { font-size: 12px; font-weight: 600; color: var(--ink-light); white-space: nowrap; letter-spacing: .04em; text-transform: uppercase; }
+  .progress-track { flex: 1; height: 3px; background: var(--border); border-radius: 2px; }
+  .progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width .4s ease; }
+  .progress-pct { font-size: 12px; font-weight: 600; color: var(--gold); min-width: 36px; }
+
+  /* NAV */
+  .nav-wrap { background: white; border-bottom: 1px solid var(--border); padding: 0 2rem; overflow-x: auto; }
+  .nav-inner { display: flex; gap: 0; }
+  .nav-btn {
+    font-size: 13px; font-weight: 500; padding: 14px 18px;
+    border: none; border-bottom: 2px solid transparent;
+    background: none; color: var(--ink-light); cursor: pointer;
+    transition: all .2s; white-space: nowrap; letter-spacing: .01em;
+  }
+  .nav-btn:hover { color: var(--ink); }
+  .nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 600; }
+
+  /* MAIN */
+  .main { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; animation: fadeUp .35s ease; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header { margin-bottom: 1.5rem; }
+  .section-num { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: .3rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--ink); line-height: 1.3; }
+
+  /* CARDS */
+  .card {
+    background: white; border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem; box-shadow: var(--shadow);
+  }
+  .card-accent-gold  { border-left: 3px solid var(--gold); }
+  .card-accent-teal  { border-left: 3px solid var(--teal); }
+  .card-accent-coral { border-left: 3px solid var(--coral); }
+  .card-accent-blue  { border-left: 3px solid var(--blue); }
+
+  .card-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .5rem; }
+  .eyebrow-gold  { color: var(--gold); }
+  .eyebrow-teal  { color: var(--teal); }
+  .eyebrow-coral { color: var(--coral); }
+  .eyebrow-blue  { color: var(--blue); }
+
+  .card-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; color: var(--ink); }
+  .card-body { font-size: 14px; color: var(--ink-mid); line-height: 1.7; }
+
+  /* QUOTE */
+  .blockquote {
+    background: var(--gold-pale); border-left: 3px solid var(--gold);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 1rem 1.25rem; margin: .75rem 0;
+    font-size: 14px; color: var(--ink); font-style: italic; line-height: 1.7;
+  }
+
+  /* GLOSSARY */
+  .terms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+  .term-card {
+    background: var(--cream); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: .85rem 1rem;
+    cursor: pointer; transition: all .2s;
+  }
+  .term-card:hover { border-color: var(--gold); background: var(--gold-pale); }
+  .term-card.open { border-color: var(--gold); background: white; }
+  .term-word { font-size: 13px; font-weight: 600; color: var(--ink); display: flex; justify-content: space-between; align-items: center; }
+  .term-word::after { content: '+'; font-size: 16px; color: var(--gold); transition: transform .2s; }
+  .term-card.open .term-word::after { transform: rotate(45deg); }
+  .term-def { font-size: 12px; color: var(--ink-mid); margin-top: 6px; line-height: 1.6; display: none; border-top: 1px solid var(--border); padding-top: 6px; }
+  .term-card.open .term-def { display: block; }
+
+  /* BISOGNI */
+  .bisogni-stack { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .bisogno-row { display: flex; gap: 10px; align-items: stretch; }
+  .bisogno-label {
+    width: 115px; min-width: 115px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; text-align: center; padding: 10px 8px;
+    letter-spacing: .02em;
+  }
+  .bisogno-content { flex: 1; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+  .bisogno-blue   .bisogno-label { background: var(--blue-light); color: var(--blue); }
+  .bisogno-blue   .bisogno-content { background: var(--blue-pale); }
+  .bisogno-gold   .bisogno-label { background: var(--gold-light); color: #7A5520; }
+  .bisogno-gold   .bisogno-content { background: var(--gold-pale); }
+  .bisogno-teal   .bisogno-label { background: var(--teal-light); color: var(--teal); }
+  .bisogno-teal   .bisogno-content { background: var(--teal-pale); }
+
+  /* PERSONA ACTIVITY */
+  .persona-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 12px 0; }
+  .persona-card {
+    border: 1.5px solid var(--border); border-radius: var(--radius);
+    padding: 14px 10px; text-align: center; cursor: pointer;
+    background: white; transition: all .2s;
+  }
+  .persona-card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .persona-card.selected { border-color: var(--gold); background: var(--gold-pale); }
+  .persona-icon { font-size: 28px; display: block; margin-bottom: 6px; }
+  .persona-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+  .persona-result { display: none; margin-top: 12px; }
+  .persona-result.show { display: block; }
+  .result-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .result-cell { font-size: 12px; border-radius: var(--radius-sm); padding: 10px 12px; line-height: 1.5; }
+  .cell-blue  { background: var(--blue-pale); color: var(--blue); }
+  .cell-gold  { background: var(--gold-pale); color: #7A5520; }
+  .cell-teal  { background: var(--teal-pale); color: var(--teal); }
+  .result-cell strong { display: block; margin-bottom: 5px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+
+  /* LOYALTY vs FIDELIZZAZIONE */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .compare-card { border-radius: var(--radius-sm); padding: 1rem; }
+  .compare-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .compare-body { font-size: 13px; line-height: 1.6; }
+
+  /* FLOW */
+  .flow-strip { display: flex; align-items: center; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+  .flow-step { border-radius: var(--radius-sm); padding: 8px 14px; font-size: 12px; font-weight: 600; text-align: center; }
+  .flow-arrow { color: var(--ink-light); font-size: 18px; }
+
+  /* STRATEGIE LIST */
+  .strategie-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  .strategia-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px; background: var(--cream); border-radius: var(--radius-sm); border: 1px solid var(--border); }
+  .strategia-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .strategia-text { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+  .strategia-text strong { color: var(--ink); }
+
+  /* HILTON */
+  .hilton-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; margin-top: 12px; }
+  .hilton-card { background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
+  .hilton-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 5px; }
+  .hilton-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .hilton-desc { font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
+
+  /* QUIZ */
+  .quiz-counter { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 14px; }
+  .quiz-question { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--ink); margin-bottom: 14px; line-height: 1.5; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    background: var(--cream); border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm); padding: 11px 14px;
+    font-size: 13px; color: var(--ink-mid); cursor: pointer;
+    transition: all .15s; text-align: left; font-family: 'DM Sans', sans-serif;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-pale); color: var(--ink); }
+  .quiz-opt.correct { background: var(--teal-pale); border-color: var(--teal); color: var(--teal); font-weight: 500; }
+  .quiz-opt.wrong   { background: var(--coral-pale); border-color: var(--coral); color: var(--coral); }
+  .quiz-feedback {
+    display: none; margin-top: 12px; padding: 10px 14px;
+    border-radius: var(--radius-sm); font-size: 13px; line-height: 1.6;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: var(--teal-pale); color: var(--teal); }
+  .quiz-feedback.ko { background: var(--coral-pale); color: var(--coral); }
+  .quiz-nav { display: flex; gap: 8px; margin-top: 16px; align-items: center; }
+
+  /* FINAL SCORE */
+  .score-box { text-align: center; padding: 2.5rem 2rem; }
+  .score-ring {
+    width: 100px; height: 100px; border-radius: 50%;
+    border: 4px solid var(--gold); display: flex; align-items: center;
+    justify-content: center; margin: 0 auto 1rem; background: var(--gold-pale);
+  }
+  .score-number { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--gold); }
+  .score-label { font-size: 14px; color: var(--ink-mid); margin-bottom: 1.5rem; }
+  .score-stats { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .score-stat { text-align: center; }
+  .score-stat-val { font-size: 1.4rem; font-weight: 700; color: var(--ink); font-family: 'Playfair Display', serif; }
+  .score-stat-lbl { font-size: 11px; color: var(--ink-light); text-transform: uppercase; letter-spacing: .06em; }
+
+  /* BUTTONS */
+  .btn {
+    font-size: 13px; font-weight: 600; padding: 9px 20px;
+    border-radius: var(--radius-sm); border: 1.5px solid var(--border);
+    background: white; color: var(--ink-mid); cursor: pointer; transition: all .2s;
+    font-family: 'DM Sans', sans-serif; letter-spacing: .02em;
+  }
+  .btn:hover { border-color: var(--ink-mid); color: var(--ink); }
+  .btn-gold {
+    background: var(--gold); color: white; border-color: var(--gold);
+  }
+  .btn-gold:hover { background: #A87930; border-color: #A87930; }
+
+  .section-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+  /* ACTIVITY BOX */
+  .activity-box {
+    background: var(--gold-pale); border: 1.5px dashed var(--gold-light);
+    border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-top: 1rem;
+  }
+  .activity-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: .5rem; display: flex; gap: 8px; align-items: center; }
+
+  /* RIEPILOGO */
+  .recap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-top: 14px; }
+  .recap-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; text-align: center; }
+  .recap-icon { font-size: 24px; margin-bottom: 6px; }
+  .recap-label { font-size: 11px; font-weight: 600; color: var(--ink-light); text-transform: uppercase; letter-spacing: .06em; }
+  .recap-value { font-size: 1.3rem; font-weight: 700; color: var(--ink); font-family: 'Playfair Display', serif; }
+
+  @media (max-width: 600px) {
+    .header { padding: 1.5rem 1.2rem; }
+    .main { padding: 1.5rem 1rem 3rem; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .result-row { grid-template-columns: 1fr; }
+    .flow-strip { gap: 4px; }
+    .flow-step { font-size: 11px; padding: 6px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Turismo.com — Classe 5ª IPAT</div>
+  <div class="header-title">Il Linguaggio del Marketing</div>
+  <div class="header-sub">Lezione interattiva tratta dal libro di testo</div>
+  <div class="header-meta">
+    <span class="meta-chip">5 sezioni</span>
+    <span class="meta-chip">Attività dal libro</span>
+    <span class="meta-chip">Verifica finale</span>
+    <span class="meta-chip">Case history Hilton</span>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <span class="progress-label">Progresso</span>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:20%"></div></div>
+  <span class="progress-pct" id="progress-pct">20%</span>
+</div>
+
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="goSection(0)">1. Cos'è il marketing</button>
+    <button class="nav-btn" onclick="goSection(1)">2. Customer satisfaction</button>
+    <button class="nav-btn" onclick="goSection(2)">3. Loyalty e fidelizzazione</button>
+    <button class="nav-btn" onclick="goSection(3)">4. Case history: Hilton</button>
+    <button class="nav-btn" onclick="goSection(4)">5. Verifica</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ===== SEZIONE 0 ===== -->
+  <div class="section active" id="sec0">
+    <div class="section-header">
+      <div class="section-num">Sezione 01</div>
+      <div class="section-title">Cos'è il marketing</div>
+    </div>
+
+    <div class="card card-accent-gold">
+      <div class="card-eyebrow eyebrow-gold">Definizione chiave</div>
+      <div class="card-title">Il marketing</div>
+      <div class="card-body">Il marketing è l'insieme delle strategie aziendali per ottimizzare la vendita dei prodotti e raggiungere gli obiettivi d'impresa. Si fonda sulla comprensione dei <strong>bisogni e desideri dei clienti</strong> (domanda) e sulla loro soddisfazione in modo più efficace rispetto alla concorrenza (offerta).</div>
+      <div class="blockquote">«L'imperativo del marketing è la soddisfazione del cliente, la customer satisfaction.»</div>
+    </div>
+
+    <div class="card card-accent-teal">
+      <div class="card-eyebrow eyebrow-teal">Marketing moderno</div>
+      <div class="card-title">Le 3 caratteristiche principali</div>
+      <div class="strategie-list">
+        <div class="strategia-item">
+          <span class="strategia-icon">🔄</span>
+          <div class="strategia-text"><strong>Dalla transazione alla relazione</strong> — l'obiettivo non è un incremento temporaneo delle vendite, ma il coinvolgimento e la fiducia del cliente nel tempo.</div>
+        </div>
+        <div class="strategia-item">
+          <span class="strategia-icon">🎯</span>
+          <div class="strategia-text"><strong>Personalizzazione</strong> — l'esperienza di acquisto è su misura per il singolo cliente, con i suoi bisogni e desideri al centro.</div>
+        </div>
+        <div class="strategia-item">
+          <span class="strategia-icon">🤝</span>
+          <div class="strategia-text"><strong>Cliente come partner</strong> — i clienti partecipano attivamente alla definizione dell'offerta, contribuendo ad accrescere il valore dei servizi.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Parole chiave — clicca per scoprire le definizioni</div>
+      <div class="terms-grid">
+        <div class="term-card" onclick="this.classList.toggle('open')">
+          <div class="term-word">Mercato</div>
+          <div class="term-def">La sfera (non necessariamente un luogo fisico) in cui si incontrano coloro che offrono merci/servizi e coloro che ne fanno richiesta.</div>
+        </div>
+        <div class="term-card" onclick="this.classList.toggle('open')">
+          <div class="term-word">Domanda</div>
+          <div class="term-def">La quantità richiesta di un certo bene o servizio da parte dei clienti nel mercato.</div>
+        </div>
+        <div class="term-card" onclick="this.classList.toggle('open')">
+          <div class="term-word">Offerta</div>
+          <div class="term-def">La quantità di un certo bene o servizio che viene messa in vendita dalle imprese nel mercato.</div>
+        </div>
+        <div class="term-card" onclick="this.classList.toggle('open')">
+          <div class="term-word">Vantaggio competitivo</div>
+          <div class="term-def">Un plus che distingue l'impresa dalla concorrenza. Tradizionalmente: qualità e prezzo. Oggi si aggiunge la personalizzazione e l'innovazione.</div>
+        </div>
+        <div class="term-card" onclick="this.classList.toggle('open')">
+          <div class="term-word">Customer satisfaction</div>
+          <div class="term-def">La soddisfazione del cliente: imperativo del marketing moderno. Si persegue comprendendo bisogni espliciti, impliciti e latenti.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-footer">
+      <span></span>
+      <button class="btn btn-gold" onclick="goSection(1)">Avanti: Customer satisfaction →</button>
+    </div>
+  </div>
+
+  <!-- ===== SEZIONE 1 ===== -->
+  <div class="section" id="sec1">
+    <div class="section-header">
+      <div class="section-num">Sezione 02</div>
+      <div class="section-title">La Customer Satisfaction</div>
+    </div>
+
+    <div class="card card-accent-teal">
+      <div class="card-eyebrow eyebrow-teal">Concetto chiave</div>
+      <div class="card-title">La qualità totale</div>
+      <div class="card-body">La <strong>qualità totale</strong> non riguarda solo il prodotto, ma anche il servizio connesso, il sistema di produzione, la cultura aziendale. Comprende: miglior rapporto qualità-prezzo, personalizzazione, consegna puntuale, personale cortese e attento.</div>
+      <div class="blockquote">«Secondo le nuove tendenze di marketing la qualità è per il cliente soprattutto un'esperienza memorabile che supera le sue stesse aspettative.»</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">I 3 tipi di bisogni del cliente nel settore turistico</div>
+      <div class="bisogni-stack">
+        <div class="bisogno-row bisogno-blue">
+          <div class="bisogno-label">Bisogni espliciti</div>
+          <div class="bisogno-content">Espressi chiaramente dal cliente. <em>Esempio: turista che chiede un hotel vicino al mare con colazione inclusa, o una visita guidata in italiano.</em></div>
+        </div>
+        <div class="bisogno-row bisogno-gold">
+          <div class="bisogno-label">Bisogni impliciti</div>
+          <div class="bisogno-content">Dati per scontati, non espressi direttamente. <em>Esempio: pulizia quotidiana della camera, assistenza in caso di imprevisti da parte dell'agenzia viaggi.</em></div>
+        </div>
+        <div class="bisogno-row bisogno-teal">
+          <div class="bisogno-label">Bisogni latenti</div>
+          <div class="bisogno-content">Il cliente non sa di averli finché non li scopre. <em>Esempio: un trekking con guida naturalista che rivela la flora locale, o un tour gastronomico notturno.</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-title">✏️ Attività dal libro — Qualità totale e servizi di accoglienza</div>
+      <div class="card-body" style="margin-bottom:12px;font-size:13px;">Seleziona una categoria di turisti per scoprire i loro bisogni espliciti, impliciti e latenti.</div>
+      <div class="persona-grid">
+        <div class="persona-card" onclick="selectPersona(this,'famiglia')">
+          <span class="persona-icon">👨‍👩‍👧‍👦</span>
+          <div class="persona-name">Famiglia con bambini</div>
+        </div>
+        <div class="persona-card" onclick="selectPersona(this,'sposi')">
+          <span class="persona-icon">💍</span>
+          <div class="persona-name">Novelli sposi</div>
+        </div>
+        <div class="persona-card" onclick="selectPersona(this,'anziani')">
+          <span class="persona-icon">🧓</span>
+          <div class="persona-name">Turisti anziani</div>
+        </div>
+        <div class="persona-card" onclick="selectPersona(this,'giovani')">
+          <span class="persona-icon">🎒</span>
+          <div class="persona-name">Gruppo di giovani</div>
+        </div>
+      </div>
+      <div class="persona-result" id="persona-result">
+        <div class="result-row" id="result-row"></div>
+      </div>
+    </div>
+
+    <div class="section-footer">
+      <button class="btn" onclick="goSection(0)">← Indietro</button>
+      <button class="btn btn-gold" onclick="goSection(2)">Avanti: Loyalty →</button>
+    </div>
+  </div>
+
+  <!-- ===== SEZIONE 2 ===== -->
+  <div class="section" id="sec2">
+    <div class="section-header">
+      <div class="section-num">Sezione 03</div>
+      <div class="section-title">Loyalty e Fidelizzazione</div>
+    </div>
+
+    <div class="card card-accent-coral">
+      <div class="card-eyebrow eyebrow-coral">Dato chiave</div>
+      <div class="card-title">Perché fidelizzare è fondamentale</div>
+      <div class="blockquote">«Acquisire un cliente è 20 volte più costoso che conservarlo.»</div>
+      <div class="card-body" style="margin-top:8px;">Il cliente fedele, inoltre, diventa un veicolo di promozione grazie al suo <strong>passaparola positivo</strong>, riducendo i costi di acquisizione di nuovi clienti.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Fidelizzazione vs Loyalty — qual è la differenza?</div>
+      <div class="compare-grid" style="margin-top:12px;">
+        <div class="compare-card" style="background:var(--gold-pale); border:1px solid var(--gold-light);">
+          <div class="compare-label" style="color:#7A5520;">Fidelizzazione (Retention)</div>
+          <div class="compare-body" style="color:var(--ink-mid);font-size:13px;">Azione <em>tattica</em>: sconti, tessere punti, promozioni. Il cliente rimane per convenienza economica, non per attaccamento emotivo.</div>
+        </div>
+        <div class="compare-card" style="background:var(--teal-pale); border:1px solid var(--teal-light);">
+          <div class="compare-label" style="color:var(--teal);">Loyalty (Lealtà)</div>
+          <div class="compare-body" style="color:var(--ink-mid);font-size:13px;">Legame <em>emotivo</em>: il cliente sceglie il brand per fiducia e valori condivisi, non solo per il prezzo. È il risultato ideale.</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--ink-light);font-style:italic;">La fidelizzazione è il primo passo (comportamentale) che, se ben gestito, porta alla vera loyalty (emotiva).</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">La dinamica positiva in 4 fasi</div>
+      <div class="flow-strip">
+        <div class="flow-step" style="background:var(--blue-pale);color:var(--blue);">😊 Cliente soddisfatto</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step" style="background:var(--teal-pale);color:var(--teal);">🔁 Ritorna (Loyalty)</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step" style="background:var(--gold-pale);color:#7A5520;">⬆ Up-selling</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step" style="background:var(--coral-pale);color:var(--coral);">📣 Passaparola</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Strategie di comunicazione per fidelizzare</div>
+      <div class="strategie-list" style="margin-top:10px;">
+        <div class="strategia-item"><span class="strategia-icon">🎁</span><div class="strategia-text"><strong>Premiare il cliente abituale</strong> — esperienze personalizzate, upgrade, accesso a lounge, prezzi agevolati e promozioni.</div></div>
+        <div class="strategia-item"><span class="strategia-icon">📧</span><div class="strategia-text"><strong>Aggiornare con news</strong> — comunicazioni riguardanti il prodotto/servizio di interesse del cliente.</div></div>
+        <div class="strategia-item"><span class="strategia-icon">🎧</span><div class="strategia-text"><strong>Customer care</strong> — assistenza capace di rispondere con competenza e risolvere i problemi con velocità ed efficacia.</div></div>
+        <div class="strategia-item"><span class="strategia-icon">💬</span><div class="strategia-text"><strong>Riconoscimento e apprezzamento</strong> — messaggi personalizzati, upgrade in occasioni speciali, attenzione alla storia del cliente.</div></div>
+      </div>
+    </div>
+
+    <div class="section-footer">
+      <button class="btn" onclick="goSection(1)">← Indietro</button>
+      <button class="btn btn-gold" onclick="goSection(3)">Avanti: Case Hilton →</button>
+    </div>
+  </div>
+
+  <!-- ===== SEZIONE 3 ===== -->
+  <div class="section" id="sec3">
+    <div class="section-header">
+      <div class="section-num">Sezione 04</div>
+      <div class="section-title">Case History: Hilton Honors</div>
+    </div>
+
+    <div class="card card-accent-blue">
+      <div class="card-eyebrow eyebrow-blue">Case history dal libro</div>
+      <div class="card-title">Il programma di fedeltà Hilton Honors</div>
+      <div class="card-body">Hilton Honors è un esempio di successo di fidelizzazione nel turismo: combina premi, esperienze personalizzate e vantaggi esclusivi per incentivare i clienti a scegliere Hilton ripetutamente.<br><br><strong>Obiettivo:</strong> trasformare i soggiorni in una scelta preferita e ricorrente, costruendo una base di clienti altamente fedeli.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Le 6 strategie del programma</div>
+      <div class="hilton-grid">
+        <div class="hilton-card">
+          <div class="hilton-num" style="color:var(--blue);">01 — Punti e livelli</div>
+          <div class="hilton-title">Programma a livelli</div>
+          <div class="hilton-desc">Punti per ogni soggiorno, riscattabili per notti gratis e upgrade. 4 livelli: Member → Silver → Gold → Diamond.</div>
+        </div>
+        <div class="hilton-card">
+          <div class="hilton-num" style="color:var(--teal);">02 — Personalizzazione</div>
+          <div class="hilton-title">Offerte su misura</div>
+          <div class="hilton-desc">Promozioni basate sulle preferenze individuali tramite app. Check-in online, scelta camera, chiave digitale.</div>
+        </div>
+        <div class="hilton-card">
+          <div class="hilton-num" style="color:var(--gold);">03 — Benefici esclusivi</div>
+          <div class="hilton-title">Vantaggi top member</div>
+          <div class="hilton-desc">Wi-Fi gratuito, colazione, upgrade automatici, accesso a eventi speciali riservati.</div>
+        </div>
+        <div class="hilton-card">
+          <div class="hilton-num" style="color:var(--coral);">04 — Partnership</div>
+          <div class="hilton-title">Ecosistema di premi</div>
+          <div class="hilton-desc">Punti trasferibili con compagnie aeree, noleggio auto e altri servizi turistici.</div>
+        </div>
+        <div class="hilton-card">
+          <div class="hilton-num" style="color:var(--blue);">05 — Sorpresa e delizia</div>
+          <div class="hilton-title">Esperienze inaspettate</div>
+          <div class="hilton-desc">Upgrade gratuiti per compleanni e anniversari, regali di benvenuto, messaggi personali di ringraziamento.</div>
+        </div>
+        <div class="hilton-card">
+          <div class="hilton-num" style="color:var(--teal);">06 — Engagement digitale</div>
+          <div class="hilton-title">Presenza costante</div>
+          <div class="hilton-desc">Email, social media e app per mantenere il brand presente tra un soggiorno e l'altro.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="activity-box">
+      <div class="activity-title">🤔 Domanda di riflessione</div>
+      <div class="card-body" style="font-size:13px;">Collega ogni strategia Hilton a un concetto del libro: <em>customer satisfaction</em>, <em>loyalty</em>, <em>fidelizzazione</em>, <em>bisogni latenti</em> o <em>profilazione</em>. Scrivi le tue risposte sul quaderno.</div>
+    </div>
+
+    <div class="section-footer">
+      <button class="btn" onclick="goSection(2)">← Indietro</button>
+      <button class="btn btn-gold" onclick="goSection(4)">Vai alla verifica →</button>
+    </div>
+  </div>
+
+  <!-- ===== SEZIONE 4 — VERIFICA ===== -->
+  <div class="section" id="sec4">
+    <div class="section-header">
+      <div class="section-num">Sezione 05</div>
+      <div class="section-title">Verifica di comprensione</div>
+    </div>
+    <div class="card">
+      <div class="card-body">5 domande tratte direttamente dai contenuti del libro. Seleziona la risposta corretta per ciascuna.</div>
+    </div>
+    <div id="quiz-wrap"></div>
+    <div id="score-wrap" style="display:none;" class="card">
+      <div class="score-box">
+        <div class="score-ring"><div class="score-number" id="score-num">-</div></div>
+        <div class="score-label" id="score-msg">—</div>
+        <div class="score-stats">
+          <div class="score-stat"><div class="score-stat-val" id="score-correct">-</div><div class="score-stat-lbl">Corrette</div></div>
+          <div class="score-stat"><div class="score-stat-val">5</div><div class="score-stat-lbl">Totale</div></div>
+          <div class="score-stat"><div class="score-stat-val" id="score-pct">-</div><div class="score-stat-lbl">Punteggio</div></div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn" onclick="restartQuiz()">Riprova dall'inizio</button>
+          <button class="btn btn-gold" onclick="goSection(0)">Ripassa la lezione</button>
+        </div>
+      </div>
+    </div>
+    <div class="section-footer" style="justify-content:flex-start;">
+      <button class="btn" onclick="goSection(3)">← Indietro</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ---- NAVIGATION ----
+const totalSections = 5;
+let visitedSections = new Set([0]);
+
+function goSection(n) {
+  document.querySelectorAll('.section').forEach((s,i) => s.classList.toggle('active', i===n));
+  document.querySelectorAll('.nav-btn').forEach((b,i) => b.classList.toggle('active', i===n));
+  visitedSections.add(n);
+  updateProgress();
+  if (n === 4) renderQuiz();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function updateProgress() {
+  const pct = Math.round((visitedSections.size / totalSections) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+}
+
+// ---- PERSONA ACTIVITY ----
+const personaData = {
+  famiglia: {
+    espliciti: ['Camera con culla o letti separati', 'Piscina con area bambini', 'Menu bambini al ristorante'],
+    impliciti: ['Sicurezza in camera (prese protette)', 'Kit pronto soccorso disponibile', 'Attenzione agli allergeni nel cibo'],
+    latenti: ['Animatori che intrattengono i bimbi la sera', 'Tour naturalistici per famiglie', 'Angolo giochi coperto per i giorni di pioggia']
+  },
+  sposi: {
+    espliciti: ['Camera romantica con vista', 'Cena a lume di candela', 'Champagne al check-in'],
+    impliciti: ['Privacy e silenzio garantiti', 'Letto matrimoniale di qualità', 'Pulizia impeccabile'],
+    latenti: ['Fotografo professionale incluso', 'Percorso spa di coppia personalizzato', 'Sorpresa in camera al ritorno (petali, dolci)']
+  },
+  anziani: {
+    espliciti: ['Camera accessibile (no scalini)', 'Trasporto incluso ai monumenti', 'Pasti leggeri disponibili'],
+    impliciti: ['Personale paziente e disponibile', 'Illuminazione adeguata', 'Doccia con maniglioni di sicurezza'],
+    latenti: ['Programma culturale con orari comodi', 'Medico di guardia reperibile', 'Compagno di gita organizzato']
+  },
+  giovani: {
+    espliciti: ['Wi-Fi veloce e gratuito', 'Area social per stare insieme', 'Prezzi contenuti'],
+    impliciti: ['Check-in rapido', 'Colazione fino a tardi', 'Deposito bagagli gratuito'],
+    latenti: ['Tour nei luoghi più instagrammabili', 'Happy hour con prodotti locali', 'App per personalizzare il soggiorno']
+  }
+};
+
+function selectPersona(el, p) {
+  document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const d = personaData[p];
+  const res = document.getElementById('persona-result');
+  const row = document.getElementById('result-row');
+  row.innerHTML = `
+    <div class="result-cell cell-blue">
+      <strong>Espliciti</strong>
+      ${d.espliciti.map(x=>'• '+x).join('<br>')}
+    </div>
+    <div class="result-cell cell-gold">
+      <strong>Impliciti</strong>
+      ${d.impliciti.map(x=>'• '+x).join('<br>')}
+    </div>
+    <div class="result-cell cell-teal">
+      <strong>Latenti</strong>
+      ${d.latenti.map(x=>'• '+x).join('<br>')}
+    </div>`;
+  res.classList.add('show');
+}
+
+// ---- QUIZ ----
+const quizData = [
+  {
+    q: "Qual è l'imperativo fondamentale del marketing moderno secondo il libro?",
+    opts: ["Aumentare il fatturato aziendale","La soddisfazione del cliente (customer satisfaction)","Ridurre i costi di produzione","Battere la concorrenza sul prezzo"],
+    correct: 1,
+    fb: "✓ Corretto! Il libro afferma: «l'imperativo del marketing è la soddisfazione del cliente, la customer satisfaction»."
+  },
+  {
+    q: "Un turista non ha mai sentito parlare dei tour gastronomici notturni, ma quando gliene viene proposto uno ne rimane entusiasta. Di che tipo di bisogno si tratta?",
+    opts: ["Bisogno esplicito","Bisogno implicito","Bisogno latente","Bisogno materiale"],
+    correct: 2,
+    fb: "✓ Esatto! I bisogni latenti sono quelli che il cliente non sa di avere finché non gli viene offerta una nuova esperienza o servizio."
+  },
+  {
+    q: "Acquisire un nuovo cliente costa quanto rispetto a conservarne uno già attivo?",
+    opts: ["2 volte di più","5 volte di più","10 volte di più","20 volte di più"],
+    correct: 3,
+    fb: "✓ Giusto! Il libro riporta: «acquisire un cliente è 20 volte più costoso che conservarlo»."
+  },
+  {
+    q: "Qual è la differenza principale tra fidelizzazione e loyalty?",
+    opts: ["Sono sinonimi perfetti","La fidelizzazione è tattica (sconti, punti), la loyalty è un legame emotivo profondo","La loyalty riguarda solo i programmi digitali","La fidelizzazione è più costosa della loyalty"],
+    correct: 1,
+    fb: "✓ Perfetto! La fidelizzazione è l'azione tattica; la loyalty è il risultato emotivo e attitudinale, più profondo e duraturo."
+  },
+  {
+    q: "La strategia 'sorpresa e delizia' di Hilton Honors a quale concetto del libro corrisponde principalmente?",
+    opts: ["Vantaggio competitivo sul prezzo","Soddisfazione dei bisogni latenti e qualità totale","Customer retention standard","Profilazione demografica di base"],
+    correct: 1,
+    fb: "✓ Corretto! Anticipare e sorprendere il cliente con esperienze inaspettate rispecchia esattamente i concetti di bisogno latente e di qualità che supera le aspettative."
+  }
+];
+
+let currentQ = 0, score = 0, answered = [];
+let quizStarted = false;
+
+function renderQuiz() {
+  if (quizStarted) return;
+  quizStarted = true;
+  showQuestion();
+}
+
+function showQuestion() {
+  const wrap = document.getElementById('quiz-wrap');
+  document.getElementById('score-wrap').style.display = 'none';
+  if (currentQ >= quizData.length) {
+    wrap.innerHTML = '';
+    const pct = Math.round((score / quizData.length) * 100);
+    document.getElementById('score-num').textContent = pct + '%';
+    document.getElementById('score-correct').textContent = score + '/' + quizData.length;
+    document.getElementById('score-pct').textContent = pct + '%';
+    document.getElementById('score-msg').textContent = pct >= 80 ? '🎉 Ottimo risultato! Hai dimostrato una buona comprensione del capitolo.' : pct >= 60 ? '👍 Buon lavoro! Rivedi i concetti in cui hai sbagliato.' : '📖 Rileggi il capitolo e riprova — puoi migliorare!';
+    document.getElementById('score-wrap').style.display = 'block';
+    return;
+  }
+  const q = quizData[currentQ];
+  const isAnswered = answered[currentQ] !== undefined;
+  wrap.innerHTML = `
+    <div class="card">
+      <div class="quiz-counter">Domanda ${currentQ+1} di ${quizData.length}</div>
+      <div class="quiz-question">${q.q}</div>
+      <div class="quiz-options">
+        ${q.opts.map((o,i) => {
+          let cls = 'quiz-opt';
+          if (isAnswered) {
+            if (i === q.correct) cls += ' correct';
+            else if (i === answered[currentQ] && i !== q.correct) cls += ' wrong';
+          }
+          return `<button class="${cls}" onclick="answerQ(${i})" ${isAnswered?'disabled':''}>${o}</button>`;
+        }).join('')}
+      </div>
+      <div class="quiz-feedback ${isAnswered ? 'show ' + (answered[currentQ]===q.correct?'ok':'ko') : ''}">
+        ${isAnswered ? q.fb + (answered[currentQ] !== q.correct ? '<br><em>Risposta corretta: ' + q.opts[q.correct] + '</em>' : '') : ''}
+      </div>
+      <div class="quiz-nav">
+        ${currentQ > 0 ? '<button class="btn" onclick="prevQ()">← Precedente</button>' : '<span></span>'}
+        ${isAnswered ? '<button class="btn btn-gold" onclick="nextQ()">'+(currentQ < quizData.length-1 ? 'Prossima domanda →' : 'Vedi risultato →')+'</button>' : ''}
+      </div>
+    </div>`;
+}
+
+function answerQ(i) {
+  if (answered[currentQ] !== undefined) return;
+  answered[currentQ] = i;
+  if (i === quizData[currentQ].correct) score++;
+  showQuestion();
+}
+function nextQ() { currentQ = Math.min(currentQ+1, quizData.length); showQuestion(); }
+function prevQ() { currentQ = Math.max(currentQ-1, 0); showQuestion(); }
+function restartQuiz() { currentQ=0; score=0; answered=[]; quizStarted=false; renderQuiz(); }
+</script>
+</body>
+</html>
